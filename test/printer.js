@@ -268,6 +268,22 @@ exports.testMultiLineVarPrinting = function(t, assert) {
     t.finish();
 };
 
+exports.testNewExpressionWrapped = function(t, assert) {
+  var printer = new Printer({ tabWidth: 2 });
+  var newDeclaration = b.newExpression(
+    b.logicalExpression(
+      '||',
+      b.identifier('One'),
+      b.identifier('Two')
+    ),
+    [b.identifier('foo')]
+  );
+
+  assert.strictEqual(printer.print(newDeclaration).code, 'new (One || Two)(foo)');
+
+  t.finish();
+};
+
 exports.testGuessTabWidth = function(t, assert) {
     var code = [
         "function identity(x) {",
